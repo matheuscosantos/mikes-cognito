@@ -16,11 +16,6 @@ resource "aws_cognito_user_pool" "cognito_user_pool" {
   lambda_config {
     pre_sign_up = "arn:aws:lambda:us-east-2:644237782704:function:pre-signup-mikes"
   }
-  schema {
-    name = "cpf"
-    attribute_data_type = "String"
-    required = true
-  }
   password_policy {
     minimum_length = 6
     require_lowercase = false
