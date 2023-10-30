@@ -5,8 +5,8 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket         = "mikes-cognito-state"
-    key            = var.states_file
-    region         = var.region
+    key            = "mikes-cognito.tfstate"
+    region         = "us-east-2"
     encrypt        = true
   }
 }
