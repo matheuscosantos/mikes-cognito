@@ -2,6 +2,15 @@ provider "aws" {
   region = "us-east-2"
 }
 
+terraform {
+  backend "s3" {
+    bucket         = "mikes-cognito-state"
+    key            = var.states_file
+    region         = var.region
+    encrypt        = true
+  }
+}
+
 resource "aws_cognito_user_pool" "cognito_user_pool" {
   name = "mikes-user-pool"
   username_attributes = ["cpf"]
