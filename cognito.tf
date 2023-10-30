@@ -13,7 +13,6 @@ terraform {
 
 resource "aws_cognito_user_pool" "cognito_user_pool" {
   name = "mikes-user-pool"
-  username_attributes = ["cpf"]
   lambda_config {
     pre_sign_up = "arn:aws:lambda:us-east-2:644237782704:function:pre-signup-mikes"
   }
