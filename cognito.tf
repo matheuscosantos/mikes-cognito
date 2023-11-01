@@ -11,11 +11,21 @@ terraform {
   }
 }
 
+data "aws_lambda_function" "mikes_lambda_pre_sign_up" {
+  function_name = "mikes_lambda_pre_sign_up"
+}
+
+output "mikes_lambda_pre_sign_up_arn" {
+  value = data.aws_lambda_function.mikes_lambda_pre_sign_up.arn
+}
+
 resource "aws_cognito_user_pool" "cognito_user_pool" {
   name = "mikes-user-pool"
+
   lambda_config {
     pre_sign_up = mikes_lambda_pre_sign_up_arn
   }
+
   password_policy {
     minimum_length    = 6
     require_lowercase = false
