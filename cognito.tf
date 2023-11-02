@@ -15,32 +15,6 @@ data "aws_lambda_function" "mikes_lambda_pre_sign_up" {
   function_name = "mikes_lambda_pre_sign_up"
 }
 
-data "aws_iam_role" "mikes_lambda_pre_sign_up_role" {
-  name = "mikes_lambda_pre_sign_up_role"
-}
-
-resource "aws_iam_policy" "cognito_lambda_policy" {
-  name        = "cognito_lambda_policy"
-  description = "Policy to allow Cognito to invoke Lambda"
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Action = [
-          "lambda:InvokeFunction"
-        ],
-        Effect = "Allow",
-        Resource = data.aws_lambda_function.mikes_lambda_pre_sign_up.arn
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "cognito_lambda_attachment" {
-  policy_arn = aws_iam_policy.cognito_lambda_policy.arn
-  role       = data.aws_iam_role.mikes_lambda_pre_sign_up_role.name
-}
-
 resource "aws_cognito_user_pool" "cognito_user_pool" {
   name = "mikes-user-pool"
 
