@@ -52,22 +52,17 @@ resource "aws_iam_policy" "mikes_lambda_pre_sign_up_policy" {
   description = "Política para autorizar invocação da lambda quando ocorrer um sign up no cognito"
 
   policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Id" : "default",
-    "Statement" : [
+    Version = "2012-10-17",
+    Id = "default",
+    Statement = [
       {
-        "Sid" : "PreSignUpLambda"
-        "Effect" : "Allow",
-        "Principal" : {
-          "Service" : "cognito-idp.amazonaws.com"
+        Sid = "PreSignUpLambda"
+        Effect = "Allow",
+        Principal = {
+          Service = "cognito-idp.amazonaws.com"
         },
-        "Action" : "lambda:InvokeFunction",
-        "Resource" : data.aws_lambda_function.mikes_lambda_pre_sign_up.arn,
-        "Condition" : {
-          "ArnLike" : {
-            "AWS:SourceArn" : aws_cognito_user_pool.cognito_user_pool.arn
-          }
-        }
+        Action = "lambda:InvokeFunction",
+        Resource = data.aws_lambda_function.mikes_lambda_pre_sign_up.arn,
       }
     ]
   })
