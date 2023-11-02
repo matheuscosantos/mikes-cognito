@@ -46,3 +46,34 @@ resource "aws_cognito_user_pool_client" "mikes-app-client" {
     "ALLOW_USER_SRP_AUTH"
   ]
 }
+
+resource "aws_iam_policy" "mikes_lambda_pre_sign_up_policy" {
+  name        = "cognito-pre-signup-lambda-policy"
+  description = "Política para autorizar invocação da lambda quando ocorrer um sign up no cognito"
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Id" : "default",
+    "Statement" : [
+      {
+        "Sid" : "CSI_PreSignUp",
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "cognito-idp.amazonaws.com"
+        },
+        "Action" : "lambda:InvokeFunction",
+        "Resource" : data.aws_lambda_function.mikes_lambda_pre_sign_up.arn,
+        "Condition" : {
+          "ArnLike" : {
+            "AWS:SourceArn" : aws_cognito_user_pool.cognito_user_pool.arn
+          }
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "mikes_lambda_pre_sign_up_policy_attachment" {
+  policy_arn = aws_iam_policy.mikes_lambda_pre_sign_up_policy.arn
+  role       = data.aws_lambda_function.mikes_lambda_pre_sign_up.role
+}
