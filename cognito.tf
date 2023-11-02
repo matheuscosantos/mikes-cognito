@@ -56,7 +56,7 @@ resource "aws_iam_policy" "mikes_lambda_pre_sign_up_policy" {
     "Id" : "default",
     "Statement" : [
       {
-        "Sid" : "CSI_PreSignUp_${aws_cognito_user_pool.cognito_user_pool.id}_CSI_PreSignUp",
+        "Sid" : "PreSignUpLambda"
         "Effect" : "Allow",
         "Principal" : {
           "Service" : "cognito-idp.amazonaws.com"
