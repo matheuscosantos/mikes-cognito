@@ -53,36 +53,3 @@ resource "aws_lambda_permission" "mikes_lambda_pre_sign_up_permission" {
   function_name = data.aws_lambda_function.mikes_lambda_pre_sign_up.function_name
   source_arn    = aws_cognito_user_pool.cognito_user_pool.arn
 }
-
-#resource "aws_iam_policy" "mikes_lambda_pre_sign_up_policy" {
-#  name        = "cognito-pre-signup-lambda-policy"
-#  description = "Política para autorizar invocação da lambda quando ocorrer um sign up no cognito"
-#
-#  policy = jsonencode(
-#    {
-#      "Version" : "2012-10-17",
-#      "Id" : "default",
-#      "Statement" : [
-#        {
-#          "Sid" : "PreSignUpLambda",
-#          "Effect" : "Allow",
-#          "Principal" : {
-#            "Service" : "cognito-idp.amazonaws.com"
-#          },
-#          "Action" : "lambda:InvokeFunction",
-#          "Resource" : "arn:aws:lambda:us-east-2:644237782704:function:mikes_lambda_pre_sign_up",
-#          "Condition" : {
-#            "ArnLike" : {
-#              "AWS:SourceArn" : "arn:aws:cognito-idp:us-east-2:644237782704:userpool/us-east-2_VaSIQn4mE"
-#            }
-#          }
-#        }
-#      ]
-#    }
-#  )
-#}
-#
-#resource "aws_iam_role_policy_attachment" "mikes_lambda_pre_sign_up_policy_attachment" {
-#  policy_arn = aws_iam_policy.mikes_lambda_pre_sign_up_policy.arn
-#  role       = data.aws_lambda_function.mikes_lambda_pre_sign_up.role
-#}
