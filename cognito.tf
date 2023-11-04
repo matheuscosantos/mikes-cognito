@@ -53,16 +53,3 @@ resource "aws_lambda_permission" "mikes_lambda_pre_sign_up_permission" {
   function_name = data.aws_lambda_function.mikes_lambda_pre_sign_up.function_name
   source_arn    = aws_cognito_user_pool.cognito_user_pool.arn
 }
-
-resource "aws_cognito_user" "mikes_admin_user" {
-  username                 = "admin@mikes.com"
-  user_pool_id             = aws_cognito_user_pool.cognito_user_pool.id
-  force_alias_creation     = true
-  message_action           = "SUPPRESS"
-  desired_delivery_mediums = ["EMAIL"]
-
-  attributes = {
-    email          = "admin@mikes.com"
-    email_verified = true
-  }
-}
