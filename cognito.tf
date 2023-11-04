@@ -62,7 +62,6 @@ resource "aws_cognito_user" "mikes_admin_user" {
   desired_delivery_mediums = ["EMAIL"]
 
   attributes = {
-    terraform      = true
     email          = "admin@mikes.com"
     email_verified = true
   }
