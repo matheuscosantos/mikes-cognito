@@ -54,58 +54,16 @@ resource "aws_lambda_permission" "mikes_lambda_pre_sign_up_permission" {
   source_arn    = aws_cognito_user_pool.cognito_user_pool.arn
 }
 
-resource "aws_cognito_user_group" "mikes_admin_group" {
-  name         = "MikesAdminGroup"
-  user_pool_id = aws_cognito_user_pool.cognito_user_pool.id
-}
-
-resource "aws_cognito_user_group" "mikes_user_group" {
-  name         = "MikesUserGroup"
-  user_pool_id = aws_cognito_user_pool.cognito_user_pool.id
-}
-
-resource "aws_cognito_user_pool_domain" "mikes_domain" {
-  domain   = "example-auth-domain"
-  user_pool_id = aws_cognito_user_pool.cognito_user_pool.id
-}
-
 resource "aws_cognito_user" "mikes_admin_user" {
-  username              = "admin@mikes.com"
-  user_pool_id          = aws_cognito_user_pool.cognito_user_pool.id
-  force_alias_creation  = true
-  message_action = "SUPPRESS"
+  username                 = "admin@mikes.com"
+  user_pool_id             = aws_cognito_user_pool.cognito_user_pool.id
+  force_alias_creation     = true
+  message_action           = "SUPPRESS"
   desired_delivery_mediums = ["EMAIL"]
 
-  user_attributes = [
-    {
-      name   = "mikes_admin_user"
-      value  = "admin@mikes.com"
-    },
-  ]
-}
-
-resource "aws_cognito_user_group_membership" "mikes_admin_group_membership" {
-  group_name  = aws_cognito_user_group.mikes_admin_group.name
-  username    = aws_cognito_user.mikes_admin_user.username
-  user_pool_id = aws_cognito_user_pool.cognito_user_pool.id
-}
-
-resource "aws_cognito_user_pool_client" "mikes_admin_client" {
-  name                     = "mikes_admin_client"
-  user_pool_id             = aws_cognito_user_pool.cognito_user_pool.id
-  generate_secret          = false
-  allowed_oauth_flows_user = true
-  allowed_oauth_flows      = ["code", "implicit"]
-  allowed_oauth_scopes     = ["openid", "profile"]
-}
-
-resource "aws_cognito_user_group" "mikes_admin_client_group" {
-  name         = "AdminClientGroup"
-  user_pool_id = aws_cognito_user_pool.cognito_user_pool.id
-}
-
-resource "aws_cognito_user_group_membership" "admin_client_group_membership" {
-  group_name  = aws_cognito_user_group.mikes_admin_client_group.name
-  username    = aws_cognito_user.mikes_admin_user.username
-  user_pool_id = aws_cognito_user_pool.cognito_user_pool.id
+  attributes = {
+    terraform      = true
+    email          = "admin@mikes.com"
+    email_verified = true
+  }
 }
